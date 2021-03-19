@@ -17,4 +17,21 @@ def getServerIP():
     except Exception as e:
         print(e)
         return jsonify({"result" : {"status" : 0, "data" : "", "message" : "failed"}})
-        
+       
+@admin.route('/updateServerIP', methods = ['POST'])
+def serverConfiguration():
+  endpoint = request.get_json()['endpoint'] 
+  try:
+      result=serverConf.query.filter_by(id = 1).scalar()
+      if result != None:
+          db.session.query(serverConf).filter(serverConf.id == 1).update({serverConf.ip:endpoint})
+          db.session.commit()
+          return jsonify({"result" : {"message" : "server credentials updated successfully", "status" : 1}})
+      else:
+          serverConfObj = serverConf(id = 1,ip = endpoint)
+          db.session.add(serverConfObj) 
+          db.session.commit()
+          return jsonify({"result" : {"message" : "server credentials saved successfully", "status" : 1}})  
+  except Exception as e:
+      print(e)   
+      return jsonify({"result" : {"message" : "something went wrong", "status" : 0}})
