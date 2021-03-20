@@ -6,7 +6,7 @@ GPIO.setup(36,GPIO.OUT)
 
 
 def checkNetworkConnection():
-    flag = 0
+    flag = 1
     while(1):
         sleep(5)    
         result=subprocess.Popen("sudo mii-tool eth0 ",stdout=subprocess.PIPE,shell=True)
