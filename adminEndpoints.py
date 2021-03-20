@@ -86,4 +86,20 @@ def UpdateSignalsDetails():
     except Exception as e:
         print(e)
         return jsonify({"result" : {"status" : 0, "message" : "Something went wrong"}})
+
+@admin.route('/getNetworkConf', methods = ['GET'])
+def getNetworkConf():
+    data = {}
+    try:
+        result = networkConf.query.get(1)
+        if result != None:
+            data['ip'] = result.ip
+            data['dns'] = result.dns
+            data['gateway'] = result.gateway
+            return jsonify({"result" : {"status" : 1, "data" : data, "message" : "Successfully fetched and saved data"}})
+        else:
+            return jsonify({"result" : {"status" : 1, "message" : "No previous data found", "data" : {} }})
+    except Exception as e:
+        print(e)
+        return jsonify({"result" : {"status" : 0, "data" : {}, "message" : "Failed"}})
         
