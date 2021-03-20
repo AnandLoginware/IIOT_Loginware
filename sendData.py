@@ -1,7 +1,5 @@
 #*********This script is used to send all the IIOT data from device to server**************************
 
-
-
 #importing of required libraries
 from time import sleep 
 import sqlite3 
@@ -10,15 +8,11 @@ from datetime import datetime
 import configuration as config
 
 #making a connection with the database
-conn2=sqlite3.connect(config.DATABASENAME)
+conn2 = sqlite3.connect(config.DATABASENAME)
 
 #create a cursor object to execute all sql queries
-curs2=conn2.cursor()
-curs2=conn2.execute('PRAGMA journal_mode=wal')
-
-
-
-
+curs2 = conn2.cursor()
+curs2 = conn2.execute('PRAGMA journal_mode=wal')
 
 #Function which sends AlarmInfo  data
 #parameters :  endpoint - at which endpoint to send the data
@@ -27,25 +21,25 @@ def SendAlarmData(endpoint):
    print("****************SENDING ALARM DATA********************")
    try:
              curs2.execute("select * from alarm ")
-             result=curs2.fetchall()
-             if result is not None: 
-               data={}                   
+             result = curs2.fetchall()
+             if result is not None:
+               data = {}
                for colm in result:
-                 Id=colm[0]
-                 data["ID"]=colm[0]
-                 data["MachineID"]=colm[1]
-                 data["OperatorName"]=colm[2]
-                 data["JobID"]=colm[3]
-                 data["Shift"]=colm[4]
-                 data["Component"]=colm[5]
-                 data["ModelName"]=colm[6]
-                 data["Operation"]=colm[7]
-                 data["TimeStamp"]=colm[8]
-                 data["Reason"]=colm[9]
-                 data['ErrorCode']=colm[10]
-                 response=req.post(endpoint,data=data,timeout=2)
-                 if(response.status_code>=200 and response.status_code<=206):
-                         curs2.execute("delete from alarm where id=(?)",(Id,))
+                 Id = colm[0]
+                 data["ID"] = colm[0]
+                 data["MachineID"] = colm[1]
+                 data["OperatorName"] = colm[2]
+                 data["JobID"] = colm[3]
+                 data["Shift"] = colm[4]
+                 data["Component"] = colm[5]
+                 data["ModelName"] = colm[6]
+                 data["Operation"] = colm[7]
+                 data["TimeStamp"] = colm[8]
+                 data["Reason"] = colm[9]
+                 data['ErrorCode'] = colm[10]
+                 response = req.post(endpoint, data = data, timeout = 2)
+                 if(response.status_code >= 200 and response.status_code <= 206):
+                         curs2.execute("delete from alarm where id=(?)", (Id,))
                          conn2.commit()
                          print("{} entry send to server and deleted from local database ").format(Id)
                  else:
@@ -71,7 +65,7 @@ def SendLiveStatus(endpoint):
          print("****************SENDING LIVE SIGNALS DATA********************")
          try:
            curs2.execute("select * from live_status")
-           result=curs2.fetchone()
+           result = curs2.fetchone()
            if result is not None: 
              Id=str(result[0])
              machineId=result[1]
