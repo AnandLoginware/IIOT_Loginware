@@ -103,3 +103,27 @@ def getNetworkConf():
         print(e)
         return jsonify({"result" : {"status" : 0, "data" : {}, "message" : "Failed"}})
         
+@admin.route('/updateOtherSettings', methods = ['POST'])
+def otherSettingsFunction():
+    data = request.get_json()
+    machineId = data['machineId']
+    batchSize = data['batchSize']
+    holdingRelay = data['holdingRelay']
+    machineBypass = data['machineBypass']
+    idleTimeout = data['idleTimeout']
+    cleaningInterval = data['cleaningInterval']
+    machineType = data['machineType']
+    try:
+        result = otherSettings.query.filter_by(id = 1).scalar()
+        if result != None:
+            db.session.query(otherSettings).filter(otherSettings.id == 1).update({"machineId" : machineId, "batchSize" : batchSize, "holdingRelay" : holdingRelay, "machineBypass" : machineBypass, "idleTimeout" : idleTimeout, "cleaningInterval" : cleaningInterval, "machineType" : machineType})
+            db.session.commit()
+            return jsonify({"result" : {"status" : 1, "message" : "Other settings updated successfully"}})
+        else:
+         otherSettingsConfObject = otherSettings(machineId=machineId,batchSize=batchSize,holdingRelay=holdingRelay,machineBypass=machineBypass,idleTimeout=idleTimeout,cleaningInterval=cleaningInterval,machineType=machineType)
+         db.session.add(otherSettingsConfObject)
+         db.session.commit()
+         return jsonify({"result": {"status" : 1,"message":"other settings saved successfully"}})   
+    except Exception as e:
+        print(e)
+        return jsonify({"result": {"status" : 0,"message":"something went wrong"}})  
