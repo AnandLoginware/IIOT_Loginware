@@ -61,5 +61,29 @@ def UpdatenetworkDetails():
                 f.close()
             return jsonify({"result" : {"status" : 1, "message" : "Network details saved successfully"}})
     except Exception as e:
-        return jsonify({"result" : {"status" : 0, "message" : Something went wrong"}})
+        return jsonify({"result" : {"status" : 0, "message" : "Something went wrong"}})
+        
+@admin.route('/updateSignalsDetails', methods = ['POST'])
+def UpdateSignalsDetails():
+    resultList = []
+    objinList = {}
+    for i in range(1, 13):
+        objinList["signal" + str(i)] = request.get_json()['signal' + str(i)]
+        objinList["pin" + str(i)] = request.get_json()['pin' + str(i)]
+        objinList["enable" + str(i)] = request.get_json()['enable' + str(i)]
+        resultList.append(objinList)
+        objinList = {}
+    try:
+        result = pinout.query.filter_by(signalName = 'cycle').scalar()
+        if result != None:
+            db.session.query(pinout).delete()
+            db.session.commit()
+        for i, data in enumerate(resultList):
+            pinoutObject = pinout(machineId = "JG-20", signal = data['signal' + str(i + 1)], pin = data['pin' + str(i + 1)], status = data['enable' + str(i + 1)])
+            db.session.add(pinoutObject)
+            db.session.commit()
+        return jsonify({"result" : {"status" : 1, "message" : "Network details saved successfully"}})
+    except Exception as e:
+        print(e)
+        return jsonify({"result" : {"status" : 0, "message" : "Something went wrong"}})
         
