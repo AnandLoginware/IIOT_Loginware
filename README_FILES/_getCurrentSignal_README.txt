@@ -1,7 +1,6 @@
 #_getCurrentSignal.py
 #This file is responsible for checking for the live signal, checking for the production and inserting live signals to local db. 
 
-
 #Functions and their descriptions
 getCurrentSignal():
 	#This function is concerned about getting current live signal from the machine and inserting to local db, and also it checks for the production data by comparing the PRODUCTION_ARRAY and TEMP_PRODUCTION_ARRAY.
