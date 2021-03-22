@@ -5,9 +5,11 @@
 getCurrentSignal():
 	#This function is concerned about getting current live signal from the machine and inserting to local db, and also it checks for the production data by comparing the PRODUCTION_ARRAY and TEMP_PRODUCTION_ARRAY.
 	#If both array matches then the production status is 1. If they do not match then the production status is 0.
+
 insertSignalToLocalDb():
 	#This function is responsible for inserting the live signals of the machine to local db.
 	#All live signals will be inserted to signals table of the local database of "erp.db"
+
 productionOk():
 	#This function is responsible for checking production ok and inserting the production status to the local db.
 
@@ -20,6 +22,7 @@ jobProgress():
 updateLiveStatus():
 	#This function is to update the live status to the local db.
 	#Live status -> machine Idle, cycle, alarm and emergency.
+
 getFlagStatus():
 	#This function is to check the which signal is ON or OFF and to maintain the flag for each signal.
 	#If the flag is 0, then signal is OFF.
@@ -27,4 +30,3 @@ getFlagStatus():
 
 setFlagStatus():
 	#This function is to set the signals flags after reading the current signal flag.
-
