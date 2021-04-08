@@ -48,7 +48,7 @@ def getCurrentSignal(self,InputPin,processOn,processOff):
         setFlagStatus(process,1)
         insertSignalToLocalDb(self,self.machineId,process,timeStamp)
         if process=="alarmON":
-	    GPIO.output(11, False)
+            GPIO.output(11, False)
             updateLiveStatus(self,LIVE_STATUS_CODES['alarm'],"Alarm","red")
             holdMachine(self,)
             jobProgress(self,"finished")
@@ -56,11 +56,11 @@ def getCurrentSignal(self,InputPin,processOn,processOff):
             updateLiveStatus(self,LIVE_STATUS_CODES['machineIdle'],"Machine Idle","orange")
             holdMachine(self,)
         elif process=="emergencyON":
-	    GPIO.output(11, False)
+            GPIO.output(11, False)
             updateLiveStatus(self,LIVE_STATUS_CODES['emergency'],"Emergency","red")
             jobProgress(self,"finished")
         elif process=="cycleON":
-	    GPIO.output(11, True)
+            GPIO.output(11, True)
             TEMP_PRODUCTION_ARRAY.clear()
             TEMP_PRODUCTION_ARRAY.append(process)
             updateLiveStatus(self,LIVE_STATUS_CODES['cycle'],"Cycle","green")
@@ -81,7 +81,7 @@ def getCurrentSignal(self,InputPin,processOn,processOff):
             updateLiveStatus(self,LIVE_STATUS_CODES['machineIdle'],"Machine Idle","orange") 
             holdMachine(self,)
         if (process=="cycleOFF"):
-	    GPIO.output(11, False)
+            GPIO.output(11, False)
             #update progress of job has finished 
             jobProgress(self,"finished")
 
